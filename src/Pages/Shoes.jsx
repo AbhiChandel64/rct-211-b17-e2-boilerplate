@@ -9,17 +9,21 @@ const Shoes = () => {
   const dispatch = useDispatch();
   const { shoes } = useSelector((d) => d.appReducer);
 
+  const [categories, setCategories] = useState(["Sneakers"]);
+
   useEffect(() => {
     getShoes()(dispatch);
   }, []);
 
   return (
     <div>
-      <Filter />
+      <Filter categories={categories} setCategories={setCategories} />
       <div style={{ display: "flex", flexFlow: "wrap" }}>
-        {shoes.map((data) => (
-          <SingleShoe {...data} />
-        ))}
+        {shoes
+          .filter((shoe) => categories.includes(shoe.category))
+          .map((shoe) => (
+            <SingleShoe {...shoe} />
+          ))}
       </div>
     </div>
   );
